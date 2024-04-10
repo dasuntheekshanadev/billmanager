@@ -3,13 +3,24 @@ import React, { useState } from "react";
 const Form = () => {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
-    message: "",
-    vendor: "",
-    type: "",
     location: "",
-    locationCode: "",
+    vendor: "",
+    vendorLocation: "",
+    type: "",
     expenseType: "",
+    agreementPeriod: {
+      start: "",
+      end: "",
+      calculatedDate: "",
+    },
+    keyPayment: {
+      amount: "",
+      period: "",
+    },
+    rentCycle: {
+      type: "",
+      payment: "",
+    },
   });
 
   const handleChange = (e) => {
@@ -17,6 +28,17 @@ const Form = () => {
     setFormData({
       ...formData,
       [name]: value,
+    });
+  };
+
+  const handleRentFieldsChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: {
+        ...formData[name],
+        [name]: value,
+      },
     });
   };
 
@@ -30,7 +52,7 @@ const Form = () => {
     <div className="flex justify-center items-center bg-purple-100 min-h-screen">
       <form className="w-full md:max-w-lg bg-white rounded-lg shadow-md px-8 py-6">
         <h2 className="text-3xl mb-4 text-purple-800 font-bold text-center">
-          Manage Your Hostel Bills
+          Manage VoiceD Hostel Bills
         </h2>
         <div className="grid grid-cols-2 gap-4">
           <div className="mb-4">
@@ -85,11 +107,10 @@ const Form = () => {
               <option value="option1">Rent</option>
               <option value="option2">Electricity</option>
               <option value="option3">Water</option>
-              <option value="option3">Other</option>
+              <option value="option4">Other</option>
               {/* Add more options as needed */}
             </select>
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="location"
@@ -109,19 +130,19 @@ const Form = () => {
           </div>
           <div className="mb-4">
             <label
-              htmlFor="locationCode"
+              htmlFor="vendorLocation"
               className="block text-purple-800 text-sm font-bold mb-2"
             >
-              Location Code
+              Vendor Location
             </label>
             <input
               type="text"
-              id="locationCode"
-              name="locationCode"
-              value={formData.locationCode}
+              id="vendorLocation"
+              name="vendorLocation"
+              value={formData.vendorLocation}
               onChange={handleChange}
               className="appearance-none border rounded w-full py-2 px-3 text-purple-800 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter location code"
+              placeholder="Enter vendor location"
             />
           </div>
           <div className="mb-4">
@@ -141,22 +162,60 @@ const Form = () => {
               placeholder="Enter expense type"
             />
           </div>
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="message"
-            className="block text-purple-800 text-sm font-bold mb-2"
-          >
-            Message
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            className="appearance-none border rounded w-full py-2 px-3 text-purple-800 leading-tight focus:outline-none focus:shadow-outline h-32"
-            placeholder="Enter your message"
-          />
+          {formData.type === "option1" && (
+            <>
+              <div className="mb-4">
+                <label
+                  htmlFor="start"
+                  className="block text-purple-800 text-sm font-bold mb-2"
+                >
+                  Agreement Start Date
+                </label>
+                <input
+                  type="date"
+                  id="start"
+                  name="start"
+                  value={formData.agreementPeriod.start}
+                  onChange={handleRentFieldsChange}
+                  className="appearance-none border rounded w-full py-2 px-3 text-purple-800 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="end"
+                  className="block text-purple-800 text-sm font-bold mb-2"
+                >
+                  Agreement End Date
+                </label>
+                <input
+                  type="date"
+                  id="end"
+                  name="end"
+                  value={formData.agreementPeriod.end}
+                  onChange={handleRentFieldsChange}
+                  className="appearance-none border rounded w-full py-2 px-3 text-purple-800 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="calculatedDate"
+                  className="block text-purple-800 text-sm font-bold mb-2"
+                >
+                  Calculated Date
+                </label>
+                <input
+                  type="text"
+                  id="calculatedDate"
+                  name="calculatedDate"
+                  value={formData.agreementPeriod.calculatedDate}
+                  onChange={handleRentFieldsChange}
+                  className="appearance-none border rounded w-full py-2 px-3 text-purple-800 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="Enter calculated date"
+                />
+              </div>
+              {/* Similarly, add other fields for Key Payment and Rent Cycle */}
+            </>
+          )}
         </div>
         <div className="flex items-center justify-center">
           <button
